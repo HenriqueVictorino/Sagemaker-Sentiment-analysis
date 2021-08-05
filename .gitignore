@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/Project/env_setimental/Scripts
+/Project/.vscode
+/Project/env_setimental
