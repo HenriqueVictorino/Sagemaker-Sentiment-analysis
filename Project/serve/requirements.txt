@@ -4,5 +4,6 @@ nltk
 beautifulsoup4
 html5lib
 torch
+torch.nn
 sagemaker==1.72.0
 sagemaker-containers
