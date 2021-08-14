@@ -56,20 +56,39 @@ def _get_train_data_loader(batch_size, training_dir):
 
 
 def train(model, train_loader, epochs, optimizer, loss_fn, device):
-    """
-    This is the training method that is called by the PyTorch training script. The parameters
-    passed are as follows:
-    model        - The PyTorch model that we wish to train.
-    train_loader - The PyTorch DataLoader that should be used during training.
-    epochs       - The total number of epochs to train for.
-    optimizer    - The optimizer to use during training.
-    loss_fn      - The loss function used for training.
-    device       - Where the model and data should be loaded (gpu or cpu).
-    """
-    
-    # TODO: Paste the train() method developed in the notebook here.
+    clip=5
+    for epoch in range(1, epochs + 1):
+        model.train()
+        total_loss = 0
+        for batch in train_loader:         
+            batch_X, batch_y = batch
+            
+            batch_X = batch_X.to(device)
+            batch_y = batch_y.to(device)
+            
+            # TODO: Complete this train method to train the model provided.
+            
+            # clear the gradients of all optimized variables
+            optimizer.zero_grad()
+            
+            # forward pass: compute predicted outputs by passing inputs to the model
+            output = model.forward(batch_X)
+            
+            # calculate the loss
+            loss = loss_fn(output, batch_y)
+            #print(loss)
+            #print(output,batch_y)
+            
+            # backward pass: compute gradient of the loss with respect to model parameters
+            loss.backward()
+            
+            # perform a single optimization step (parameter update)
+            nn.utils.clip_grad_norm_(model.parameters(), clip)
+            optimizer.step()
 
-    pass
+            #calculate Loss as each             
+            total_loss += loss.data.item()
+            print("Epoch: {}, BCELoss: {}".format(epoch, total_loss / len(train_loader)))
 
 
 if __name__ == '__main__':
